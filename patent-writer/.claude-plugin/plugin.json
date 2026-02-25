@@ -1,0 +1,9 @@
+{
+  "name": "patent-writer",
+  "version": "1.0.0",
+  "description": "AI-powered Chinese patent application document writer using multi-agent orchestration",
+  "author": {
+    "name": "PatentWriterAgent"
+  },
+  "keywords": ["patent", "专利", "写作", "中国专利法", "专利申请", "权利要求书", "说明书"]
+}

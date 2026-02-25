@@ -1,0 +1,26 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "jiutuhky-plugins",
+  "metadata": {
+    "description": "jiutuhky's Claude Code plugin marketplace",
+    "version": "1.0.0"
+  },
+  "owner": {
+    "name": "jiutuhky",
+    "email": ""
+  },
+  "plugins": [
+    {
+      "name": "patent-writer",
+      "source": "./patent-writer",
+      "description": "AI-powered Chinese patent application document writer using multi-agent orchestration. Orchestrates 8 specialized sub-agents to produce complete patent applications from technical disclosure documents.",
+      "version": "1.0.0",
+      "author": {
+        "name": "jiutuhky"
+      },
+      "license": "MIT",
+      "keywords": ["patent", "专利", "写作", "中国专利法", "专利申请", "权利要求书", "说明书"],
+      "category": "writing"
+    }
+  ]
+}
