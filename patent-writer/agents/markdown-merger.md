@@ -37,7 +37,7 @@ tools: ["Read", "Write", "Glob", "Grep", "Bash"]
    - 说明书摘要
    - 权利要求书
    - 说明书（技术领域 → 背景技术 → 发明内容 → 附图说明 → 具体实施方式）
-3. 在适当位置插入 Mermaid 图表代码块
+3. 在附图说明章节引用 05_diagrams/ 下的 PNG 附图文件
 4. 添加章节分隔符和目录
 5. 保存为 final_patent.md
 

@@ -9,7 +9,7 @@ AI 驱动的中国专利申请文件自动撰写插件，基于 Claude Code 多�
 - 说明书摘要（<300 字）
 - 权利要求书（方法、装置、设备、存储介质多方面保护）
 - 说明书（技术领域、背景技术、发明内容、附图说明、具体实施方式 >10000 字）
-- Mermaid 格式附图（方法流程图、装置结构图、系统架构图）
+- AI 生成 PNG 专利附图（方法流程图、装置结构图、系统架构图、硬件截面图）
 
 ## 安装
 
@@ -48,7 +48,7 @@ export EXA_API_KEY="your-exa-key"
 4. **abstract-writer** - 撰写说明书摘要
 5. **claims-writer** - 撰写权利要求书
 6. **description-writer** - 撰写说明书（具体实施方式 >10000 字）
-7. **diagram-generator** - 生成 Mermaid 附图
+7. **diagram-generator** - 生成 PNG 专利附图（AI 绘制）
 8. **markdown-merger** - 合并为完整专利文件
 
 输出文件保存在 `output/temp_[uuid]/06_final/complete_patent.md`。
@@ -71,10 +71,16 @@ patent-writer/
 │   ├── diagram-generator.md
 │   └── markdown-merger.md
 ├── skills/
-│   ├── write-patent/            # 专利写作协调流程技能
+│   ├── writing-patent/          # 专利写作协调流程技能
 │   │   ├── SKILL.md
 │   │   └── references/
 │   │       └── patent-writing-guide.md
+│   ├── patent-diagram-drawing/  # 专利附图生成技能
+│   │   ├── SKILL.md
+│   │   ├── scripts/
+│   │   │   └── generate.py
+│   │   └── references/
+│   │       └── patent-diagram-spec.md
 │   └── patent-writing/          # 专利写作知识技能
 │       ├── SKILL.md
 │       └── references/
@@ -87,7 +93,17 @@ patent-writer/
 
 - [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI
 - [markitdown](https://github.com/microsoft/markitdown) - 用于将 .docx 转换为 Markdown
+- [google-genai](https://pypi.org/project/google-genai/) - 用于调用 Gemini Image API 生成专利附图
 - Node.js (npx) - 用于运行 MCP 服务器
+
+### 环境变量
+
+| 变量 | 说明 |
+|------|------|
+| `SERPAPI_API_KEY` | Google Patents 检索 |
+| `EXA_API_KEY` | Exa 搜索引擎 |
+| `GEMINI_API_KEY` 或 `GOOGLE_API_KEY` | Gemini Image API（专利附图生成） |
+| `GEMINI_BASE_URL` 或 `GOOGLE_API_BASE_URL` | 可选，自定义 API 端点 |
 
 ## 许可证
 

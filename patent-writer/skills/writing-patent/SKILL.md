@@ -35,7 +35,7 @@ version: 1.0.0
 4. **abstract-writer**：撰写摘要
 5. **claims-writer**：撰写权利要求书
 6. **description-writer**：撰写具体实施方式（>10000字）
-7. **diagram-generator**：生成 Mermaid 图表
+7. **diagram-generator**：生成 PNG 专利附图
 8. **markdown-merger**：合并所有内容
 
 ### 子代理目录映射
@@ -48,7 +48,7 @@ version: 1.0.0
 | abstract-writer | 04_content/ | patent_outline.md | abstract.md |
 | claims-writer | 04_content/ | patent_outline.md, abstract.md | claims.md |
 | description-writer | 04_content/ | patent_outline.md, claims.md | description.md (>10000字) |
-| diagram-generator | 05_diagrams/ | description.md, structure_mapping.json | 各类型.mmd图表文件 |
+| diagram-generator | 05_diagrams/ | description.md, structure_mapping.json | 各类型.png专利附图 |
 | markdown-merger | 06_final/ | 所有04_content/和05_diagrams/文件 | complete_patent.md |
 
 ### 目录结构规范
@@ -76,15 +76,15 @@ output/temp_[uuid]/
 │   ├── description.md          # 具体实施方式（>10000字）
 │   └── figures.md              # 附图说明
 │
-├── 05_diagrams/                 # 图表文件
+├── 05_diagrams/                 # 专利附图（PNG）
 │   ├── flowcharts/             # 流程图
-│   │   ├── system_architecture.mmd
-│   │   └── method_flow.mmd
+│   │   ├── method_flow.png
+│   │   └── system_architecture.png
 │   ├── structural_diagrams/    # 结构图
-│   │   ├── component_structure.mmd
-│   │   └── data_flow.mmd
-│   └── sequence_diagrams/      # 时序图
-│       └── operation_sequence.mmd
+│   │   ├── apparatus_structure.png
+│   │   └── data_flow.png
+│   └── cross_sections/         # 截面图
+│       └── hardware_cross_section.png
 │
 ├── 06_final/                    # 最终输出文件
 │   ├── complete_patent.md      # 完整专利文档
@@ -133,7 +133,7 @@ output/temp_[uuid]/
 - 所有文件必须放置在正确的目录中
 - 文件命名必须严格遵循命名规范
 - JSON文件必须格式正确且可解析
-- Mermaid图表文件必须以`.mmd`为扩展名
+- PNG附图文件必须为黑白工程制图风格，符合CNIPA专利附图规范
 
 **数据完整性要求**：
 - 每个子Agent的输出必须包含版本号和创建时间戳
@@ -144,7 +144,7 @@ output/temp_[uuid]/
 **输出格式要求**：
 - Markdown文件使用标准语法
 - JSON文件使用2空格缩进
-- Mermaid图表语法正确性验证
+- PNG附图黑白性和图号正确性验证
 - 最终文档必须包含完整的目录和章节编号
 
 ### 错误处理和恢复机制
@@ -158,7 +158,7 @@ output/temp_[uuid]/
 **数据一致性检查**：
 - 每个子代理完成后验证输出文件完整性
 - 关键字段在不同文件间的一致性检查
-- JSON格式和Mermaid语法验证
+- JSON格式验证和PNG附图完整性检查
 - 文件大小和基本内容合理性检查
 
 **回滚机制**：
