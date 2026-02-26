@@ -5,8 +5,9 @@ description: >
   "从技术交底书生成专利", "自动写专利", "generate patent from disclosure",
   "run patent writing workflow", "执行专利写作流程",
   or invokes the /patent-writer:write-patent command.
-  Orchestrates 8 specialized sub-agents in strict sequence to produce a complete
-  Chinese patent application document from a technical disclosure document.
+  Orchestrates 7 specialized sub-agents in strict sequence to produce a complete
+  Chinese patent application document (纯文本) from a technical disclosure document.
+  附图 PNG 由 patent-diagram-drawing 技能在后续步骤中单独生成。
 version: 1.0.0
 ---
 
@@ -35,8 +36,7 @@ version: 1.0.0
 4. **abstract-writer**：撰写摘要
 5. **claims-writer**：撰写权利要求书
 6. **description-writer**：撰写具体实施方式（>10000字）
-7. **diagram-generator**：生成 PNG 专利附图
-8. **markdown-merger**：合并所有内容
+7. **markdown-merger**：合并所有文本内容
 
 ### 子代理目录映射
 
@@ -48,8 +48,7 @@ version: 1.0.0
 | abstract-writer | 04_content/ | patent_outline.md | abstract.md |
 | claims-writer | 04_content/ | patent_outline.md, abstract.md | claims.md |
 | description-writer | 04_content/ | patent_outline.md, claims.md | description.md (>10000字) |
-| diagram-generator | 05_diagrams/ | description.md, structure_mapping.json | 各类型.png专利附图 |
-| markdown-merger | 06_final/ | 所有04_content/和05_diagrams/文件 | complete_patent.md |
+| markdown-merger | 06_final/ | 所有04_content/文件 | complete_patent.md |
 
 ### 目录结构规范
 
@@ -76,15 +75,10 @@ output/temp_[uuid]/
 │   ├── description.md          # 具体实施方式（>10000字）
 │   └── figures.md              # 附图说明
 │
-├── 05_diagrams/                 # 专利附图（PNG）
+├── 05_diagrams/                 # 专利附图（PNG）— 由 patent-diagram-drawing 技能在后续步骤中填充
 │   ├── flowcharts/             # 流程图
-│   │   ├── method_flow.png
-│   │   └── system_architecture.png
 │   ├── structural_diagrams/    # 结构图
-│   │   ├── apparatus_structure.png
-│   │   └── data_flow.png
 │   └── cross_sections/         # 截面图
-│       └── hardware_cross_section.png
 │
 ├── 06_final/                    # 最终输出文件
 │   ├── complete_patent.md      # 完整专利文档
@@ -133,18 +127,18 @@ output/temp_[uuid]/
 - 所有文件必须放置在正确的目录中
 - 文件命名必须严格遵循命名规范
 - JSON文件必须格式正确且可解析
-- PNG附图文件必须为黑白工程制图风格，符合CNIPA专利附图规范
+- PNG附图由 patent-diagram-drawing 技能在后续步骤中生成
 
 **数据完整性要求**：
 - 每个子Agent的输出必须包含版本号和创建时间戳
 - 结构化数据（JSON）必须包含完整的字段验证
 - 关键技术术语在所有文件中必须保持一致
-- 图表引用必须与实际文件名匹配
+- 附图引用编号需预留，在 patent-diagram-drawing 步骤中验证匹配
 
 **输出格式要求**：
 - Markdown文件使用标准语法
 - JSON文件使用2空格缩进
-- PNG附图黑白性和图号正确性验证
+- PNG附图在后续 patent-diagram-drawing 步骤中验证
 - 最终文档必须包含完整的目录和章节编号
 
 ### 错误处理和恢复机制
@@ -158,7 +152,7 @@ output/temp_[uuid]/
 **数据一致性检查**：
 - 每个子代理完成后验证输出文件完整性
 - 关键字段在不同文件间的一致性检查
-- JSON格式验证和PNG附图完整性检查
+- JSON格式验证
 - 文件大小和基本内容合理性检查
 
 **回滚机制**：

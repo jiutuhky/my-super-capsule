@@ -2,10 +2,10 @@
 name: markdown-merger
 description: >
   Use this agent when all patent sections need to be merged into the final complete document.
-  This agent combines abstract, claims, specification, and diagrams into one unified file.
+  This agent combines abstract, claims, and specification into one unified file.
 
   <example>
-  Context: All patent sections (abstract, claims, description, diagrams) have been generated
+  Context: All patent text sections (abstract, claims, description) have been generated
   user: "合并所有章节为完整专利文件"
   assistant: "I'll use the markdown-merger agent to combine all sections into the final patent document."
   <commentary>
@@ -37,7 +37,7 @@ tools: ["Read", "Write", "Glob", "Grep", "Bash"]
    - 说明书摘要
    - 权利要求书
    - 说明书（技术领域 → 背景技术 → 发明内容 → 附图说明 → 具体实施方式）
-3. 在附图说明章节引用 05_diagrams/ 下的 PNG 附图文件
+3. 在附图说明章节预留附图引用占位符（PNG 附图由后续步骤生成）
 4. 添加章节分隔符和目录
 5. 保存为 final_patent.md
 
@@ -77,4 +77,4 @@ tools: ["Read", "Write", "Glob", "Grep", "Bash"]
 - 验证所有章节是否完整
 - 检查术语一致性
 - 确认字数达标（具体实施方式 > 10000字）
-- 验证图表编号与文字对应
+- 验证附图说明章节中的图号编号连续且与正文引用一致
