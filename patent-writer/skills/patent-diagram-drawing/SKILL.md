@@ -77,7 +77,8 @@ If generation fails or quality check does not pass, retry up to 3 times with str
 Verify each generated PNG against the checklist:
 
 - [ ] **黑白性**：纯黑白，无灰度色块、无彩色元素
-- [ ] **图号正确**：底部居中的"图N"编号与说明书附图说明一致
+- [ ] **无图号**：图片中不包含底部"图N"编号
+- [ ] **无外边框**：图片四周无黑色边框线
 - [ ] **标记一致性**：步骤/模块编号与说明书具体实施方式一致
 - [ ] **文字清晰度**：所有中文标注清晰可读
 - [ ] **布局合理**：元素间距均匀，无重叠

@@ -12,8 +12,6 @@
 ```
 Generate a black-and-white patent-style method flowchart for a Chinese patent application (CNIPA standard).
 
-Title at bottom center: "图{N}"
-
 Steps (top to bottom flow):
 - S{X}01: {步骤1名称}
 - S{X}02: {步骤2名称}
@@ -27,12 +25,13 @@ Requirements:
 - Step labels in Chinese with step numbers (S{X}01, S{X}02...)
 - Arrows connecting steps top to bottom
 - Decision branches labeled "是" and "否"
-- Line weights per CNIPA patent-diagram-spec (border 2pt, boxes 1.5pt, arrows 1pt)
+- Line weights per CNIPA patent-diagram-spec (boxes 1.5pt, arrows 1pt)
+- Do NOT add any figure number or title (e.g. "图1") at the bottom or anywhere in the image
+- Do NOT draw any border or frame around the entire image; the image background should be clean white with NO outer border
 - Professional patent illustration quality
 ```
 
 **占位符说明**：
-- `{N}` — 图号（如 1、2、3）
 - `{X}` — 步骤编号前缀（如 1 表示 S101/S102，2 表示 S201/S202）
 - `{步骤名称}` — 从 description.md 中提取的实际步骤名称
 
@@ -42,8 +41,6 @@ Requirements:
 
 ```
 Generate a black-and-white patent-style apparatus structure block diagram for a Chinese patent application (CNIPA standard).
-
-Title at bottom center: "图{N}"
 
 Apparatus: {装置名称} {总编号}
 Modules inside dashed boundary:
@@ -62,6 +59,8 @@ Requirements:
 - Solid rectangles for functional modules with name and number
 - Arrows showing data/control flow direction, all labels in Chinese
 - Line weights per CNIPA patent-diagram-spec (boundary 2pt dashed, modules 1.5pt solid, arrows 1pt)
+- Do NOT add any figure number or title (e.g. "图1") at the bottom or anywhere in the image
+- Do NOT draw any border or frame around the entire image; the image background should be clean white with NO outer border
 - Professional patent illustration quality
 ```
 
@@ -76,8 +75,6 @@ Requirements:
 
 ```
 Generate a black-and-white patent-style system architecture diagram for a Chinese patent application (CNIPA standard).
-
-Title at bottom center: "图{N}"
 
 Layers (top to bottom):
 - {层1名称}: {组件1} {编号}, {组件2} {编号}
@@ -94,6 +91,8 @@ Requirements:
 - Rectangles for components with Chinese labels and numbers
 - Arrows with protocol/data annotations
 - Line weights per CNIPA patent-diagram-spec (layer boundaries 2pt dashed, components 1.5pt solid, arrows 1pt)
+- Do NOT add any figure number or title (e.g. "图1") at the bottom or anywhere in the image
+- Do NOT draw any border or frame around the entire image; the image background should be clean white with NO outer border
 - Professional patent illustration quality
 ```
 
@@ -107,8 +106,6 @@ Requirements:
 
 ```
 Generate a black-and-white patent-style hardware cross-section diagram for a Chinese patent application (CNIPA standard).
-
-Title at bottom center: "图{N}"
 
 Structure: {硬件结构描述}
 
@@ -124,6 +121,8 @@ Requirements:
 - Leader lines with Arabic numeral reference numbers, no crossing
 - Numbers increment top-to-bottom, left-to-right
 - Line weights per CNIPA patent-diagram-spec (contour 2pt, structure 1.5pt, leader lines 1pt, hatching 0.5pt)
+- Do NOT add any figure number or title (e.g. "图1") at the bottom or anywhere in the image
+- Do NOT draw any border or frame around the entire image; the image background should be clean white with NO outer border
 - Professional patent illustration quality
 ```
 

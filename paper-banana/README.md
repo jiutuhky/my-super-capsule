@@ -1,106 +1,109 @@
 # paper-banana
 
-Generate publication-quality academic illustrations (diagrams and statistical plots) for research papers using a multi-agent pipeline powered by Google Gemini models.
+基于 Google Gemini 图像模型的学术论文插图生成插件，通过多代理流水线自动生成符合顶会（NeurIPS/ICML）风格标准的出版级插图。
 
-## Features
+## 功能
 
-- **Scientific Diagrams** - Method illustrations, architecture diagrams, pipeline diagrams, framework overviews via Gemini image generation API
-- **Statistical Plots** - Bar charts, line charts, scatter plots, heatmaps, radar charts, etc. via matplotlib code generation
-- **NeurIPS/ICML Aesthetic Standards** - Automatically applies conference-grade visual styling
-- **Iterative Refinement** - Multi-round critic loop with automatic quality checking and early stopping
-- **Few-Shot Learning** - Optional reference retrieval from PaperBananaBench dataset
-- **Flexible Input** - Accepts text descriptions, `.tex` files, or `.md` files
-- **Multiple Aspect Ratios** - Supports 16:9, 1:1, 3:2, 21:9
+- **科学示意图** — 方法架构图、流程图、框架图等，调用 Gemini Image API 直接生成
+- **统计图表** — 柱状图、折线图、散点图、热力图、雷达图等，自动生成 matplotlib 代码并执行
+- **顶会视觉标准** — 自动应用 NeurIPS 2025 风格指南（配色、字体、线型、布局）
+- **多轮迭代优化** — Critic 代理自动审核生成结果，最多 3 轮迭代，满意即提前终止
+- **Few-Shot 学习** — 可选从 PaperBananaBench 数据集检索相似参考样例
+- **灵活输入** — 支持文本描述、`.tex` 文件、`.md` 文件
+- **多种画幅比** — 16:9、1:1、3:2、21:9
 
-## Installation
+## 安装
 
-```bash
-# Option 1: Install as plugin
-claude plugins add /path/to/paper-banana
+通过 [my-super-capsule](https://github.com/jiutuhky/my-super-capsule) 插件市场安装：
 
-# Option 2: Test run
-claude --plugin-dir /path/to/paper-banana
+```
+# 1. 添加插件市场（如已添加可跳过）
+/plugin marketplace add jiutuhky/my-super-capsule
+
+# 2. 安装插件
+/plugin install paper-banana@jiutuhky-plugins
 ```
 
-## Configuration
-
-Set the following environment variable:
+## 环境变量
 
 ```bash
-# Google Gemini API (required for diagram generation)
+# Google Gemini API（必填，用于图像生成）
 export GOOGLE_API_KEY="your-google-api-key"
 
-# Optional: custom API endpoint
+# 可选：自定义 API 端点
 export GOOGLE_API_BASE_URL="your-custom-endpoint"
 ```
 
-### Python Dependencies
+## Python 依赖
 
 ```bash
 pip install google-genai matplotlib Pillow
 ```
 
-## Usage
+## 使用
 
-```bash
-# In Claude Code, use the slash command
-/paper-banana <description-or-file-path> [--type diagram|plot] [--ratio 16:9|1:1|3:2|21:9]
+在 Claude Code 中执行：
+
+```
+/paper-banana <描述或文件路径> [--type diagram|plot] [--ratio 16:9|1:1|3:2|21:9]
 ```
 
-### Examples
+### 示例
 
 ```bash
-# Generate a diagram from a description
+# 从文字描述生成示意图
 /paper-banana "A transformer architecture with multi-head attention, feed-forward layers, and residual connections" --type diagram
 
-# Generate a plot from data
+# 从数据生成统计图
 /paper-banana "Bar chart comparing BLEU scores: Model A=35.2, Model B=38.7, Model C=41.3" --type plot
 
-# Generate from a LaTeX file
+# 从 LaTeX 文件生成
 /paper-banana ./paper/method.tex --type diagram --ratio 16:9
 ```
 
-## Pipeline Architecture
+## 流水线架构
 
-The plugin orchestrates 5 specialized sub-agents in sequence:
+插件协调 5 个子代理按序执行：
 
 ```
 Retriever → Planner → Stylist → Visualizer → [Critic → Visualizer] ×N
 ```
 
-1. **Retriever** - Retrieves relevant reference examples for few-shot learning (optional)
-2. **Planner** - Generates detailed textual descriptions from methodology or data
-3. **Stylist** - Refines descriptions with NeurIPS 2025 aesthetic details
-4. **Visualizer** - Converts descriptions into images (Gemini API for diagrams, matplotlib for plots)
-5. **Critic** - Iterative quality refinement (up to 3 rounds, early stop when satisfied)
+| 代理 | 职责 |
+|------|------|
+| **Retriever** | 从 PaperBananaBench 数据集检索相似参考样例，用于 Few-Shot 学习 |
+| **Planner** | 根据方法论或数据生成图的详细文字描述 |
+| **Stylist** | 在不改变语义的前提下，为描述添加 NeurIPS 2025 风格细节 |
+| **Visualizer** | 将描述转为图像：示意图走 Gemini API，统计图走 matplotlib 代码生成 |
+| **Critic** | 对比生成图与源内容，输出修改建议；最多迭代 3 轮，无需修改则提前终止 |
 
-Output is saved to `./paper_banana_output_YYYYMMDD_HHMMSS/` with subdirectories:
+### 输出目录
 
 ```
-paper_banana_output_*/
-├── pipeline_state.json    # Pipeline metadata and file references
-├── descriptions/          # Text descriptions from each stage
-├── images/                # Generated JPEG images
-└── code/                  # Matplotlib code (plots only)
+paper_banana_output_YYYYMMDD_HHMMSS/
+├── pipeline_state.json     # 流水线状态与文件引用
+├── descriptions/           # 各阶段文字描述
+├── images/                 # 生成的 JPEG 图像
+└── code/                   # matplotlib 代码（仅统计图）
 ```
 
-## Plugin Structure
+## 插件结构
 
 ```
 paper-banana/
 ├── .claude-plugin/
-│   └── plugin.json           # Plugin manifest
+│   └── plugin.json                # 插件清单
 ├── commands/
-│   └── paper-banana.md       # Main slash command
-├── agents/
-│   ├── retriever.md          # Reference example retrieval
-│   ├── planner.md            # Description generation
-│   ├── stylist.md            # Aesthetic refinement
-│   ├── visualizer.md         # Image generation
-│   └── critic.md             # Quality critique & iteration
+│   └── paper-banana.md            # 主命令
+├── agents/                        # 5 个子代理
+│   ├── retriever.md
+│   ├── planner.md
+│   ├── stylist.md
+│   ├── visualizer.md
+│   └── critic.md
 ├── skills/
 │   └── paper-banana-orchestration/
-│       ├── SKILL.md          # Pipeline orchestration logic
+│       ├── SKILL.md               # 流水线编排逻辑
 │       └── references/
 │           ├── planner_guidance.md
 │           ├── diagram_style_guide.md
@@ -110,25 +113,11 @@ paper-banana/
 │           ├── stylist_guidance.md
 │           └── evaluation_prompts.md
 ├── scripts/
-│   ├── generate_diagram.py   # Gemini image generation wrapper
-│   └── execute_plot.py       # Matplotlib code executor
+│   ├── generate_diagram.py        # Gemini 图像生成封装
+│   └── execute_plot.py            # matplotlib 代码执行器
 └── README.md
 ```
 
-## Dependencies
-
-- [Claude Code](https://docs.anthropic.com/en/docs/claude-code) CLI
-- [google-genai](https://pypi.org/project/google-genai/) - Gemini image generation API
-- [matplotlib](https://matplotlib.org/) - Statistical plot generation
-- [Pillow](https://pillow.readthedocs.io/) - Image processing (PNG to JPEG conversion)
-
-### Environment Variables
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GOOGLE_API_KEY` | Yes | Google Gemini API key for diagram generation |
-| `GOOGLE_API_BASE_URL` | No | Custom API endpoint |
-
-## License
+## 许可证
 
 MIT
