@@ -21,6 +21,18 @@
       "license": "MIT",
       "keywords": ["patent", "专利", "写作", "中国专利法", "专利申请", "权利要求书", "说明书"],
       "category": "writing"
+    },
+    {
+      "name": "paper-banana",
+      "source": "./paper-banana",
+      "description": "Generate publication-quality academic illustrations (diagrams and statistical plots) for research papers using a multi-agent pipeline with Gemini models. Supports NeurIPS/ICML-style scientific diagrams, matplotlib statistical plots, and iterative quality refinement.",
+      "version": "1.0.0",
+      "author": {
+        "name": "PaperBanana"
+      },
+      "license": "MIT",
+      "keywords": ["academic", "illustration", "diagram", "plot", "scientific", "NeurIPS", "visualization", "gemini", "matplotlib"],
+      "category": "visualization"
     }
   ]
 }

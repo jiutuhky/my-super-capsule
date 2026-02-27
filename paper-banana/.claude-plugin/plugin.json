@@ -1,0 +1,9 @@
+{
+  "name": "paper-banana",
+  "version": "1.0.0",
+  "description": "Generate publication-quality academic illustrations (diagrams and statistical plots) using PaperBanana multi-agent pipeline with Gemini models",
+  "author": {
+    "name": "PaperBanana"
+  },
+  "keywords": ["academic", "illustration", "diagram", "plot", "scientific", "NeurIPS", "visualization", "gemini"]
+}
