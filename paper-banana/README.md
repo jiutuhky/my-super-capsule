@@ -118,6 +118,10 @@ paper-banana/
 └── README.md
 ```
 
+## 致谢
+
+本插件基于 [PaperBanana](https://github.com/dwzhu-pku/PaperBanana)（Apache-2.0）开发。原项目核心工作流已由 Google 申请专利，不影响开源研究，但限制商业应用，详见[原项目声明](https://github.com/dwzhu-pku/PaperBanana#disclaimer)。
+
 ## 许可证
 
 MIT
