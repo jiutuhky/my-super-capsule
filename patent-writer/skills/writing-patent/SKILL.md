@@ -5,9 +5,10 @@ description: >
   "从技术交底书生成专利", "自动写专利", "generate patent from disclosure",
   "run patent writing workflow", "执行专利写作流程",
   or invokes the /patent-writer:write-patent command.
-  Orchestrates 7 specialized sub-agents in strict sequence to produce a complete
-  Chinese patent application document (纯文本) from a technical disclosure document.
-  附图 PNG 由 patent-diagram-drawing 技能在后续步骤中单独生成。
+  Orchestrates 6 specialized sub-agents in strict sequence to produce patent
+  application text content (Markdown) from a technical disclosure document.
+  附图 PNG 由 patent-diagram-drawing 技能在后续步骤中生成，
+  最终由 docx-merger agent 合并为 Word 专利申请文件。
 version: 1.0.0
 ---
 
@@ -36,7 +37,6 @@ version: 1.0.0
 4. **abstract-writer**：撰写摘要
 5. **claims-writer**：撰写权利要求书
 6. **description-writer**：撰写具体实施方式（>10000字）
-7. **markdown-merger**：合并所有文本内容
 
 ### 子代理目录映射
 
@@ -48,7 +48,6 @@ version: 1.0.0
 | abstract-writer | 04_content/ | patent_outline.md | abstract.md |
 | claims-writer | 04_content/ | patent_outline.md, abstract.md | claims.md |
 | description-writer | 04_content/ | patent_outline.md, claims.md | description.md (>10000字) |
-| markdown-merger | 06_final/ | 所有04_content/文件 | complete_patent.md |
 
 ### 目录结构规范
 
@@ -80,10 +79,8 @@ output/temp_[uuid]/
 │   ├── structural_diagrams/    # 结构图
 │   └── cross_sections/         # 截面图
 │
-├── 06_final/                    # 最终输出文件
-│   ├── complete_patent.md      # 完整专利文档
-│   ├── patent_application.docx # Word格式专利申请
-│   └── summary_report.md       # 项目总结报告
+├── 06_final/                    # 最终输出文件（由后续 docx-merger 步骤生成）
+│   └── patent_application.docx # Word格式专利申请
 │
 └── metadata/                    # 元数据和配置
     ├── project_info.json       # 项目基本信息
@@ -111,7 +108,7 @@ output/temp_[uuid]/
 4. **质量把控**：
    - 确保各章节术语一致性和逻辑完整性
    - 每个子Agent输出必须符合预定义格式
-   - 最终输出文件路径：`output/temp_[uuid]/06_final/complete_patent.md`
+   - 最终输出文件路径：`output/temp_[uuid]/06_final/patent_application.docx`（由后续 docx-merger 步骤生成）
 
 ### 质量标准
 
